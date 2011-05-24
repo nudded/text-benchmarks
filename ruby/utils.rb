@@ -1,19 +1,12 @@
-def benchmark_once
-  start = Time.now
-  yield
-  stop = Time.now
-  stop - start
-end
+require 'benchmark'
 
-def benchmark(&b)
+def benchmark
   runs = 100
-  total = 0.0
-  runs.times do |i|
-    result = benchmark_once(&b)
-    STDERR.puts "Run #{i}: #{result}"
-    total += result
+  
+  Benchmark.bmbm do |x|
+    x.report { run.times { yield } }
   end
-  total / runs
+
 end
 
 def with_utf8_file(filename)
